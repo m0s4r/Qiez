@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cell Physiology & Cancer Quiz</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fc;color:#182238;font:16px/1.55 Arial,sans-serif}header{background:linear-gradient(120deg,#173b8f,#527cf4);color:white;text-align:center;padding:32px 16px}h1{margin:0 0 6px}main{max-width:850px;margin:24px auto;padding:0 14px}.panel,.question,.result{background:white;border:1px solid #e1e7f0;border-radius:14px;padding:19px;margin-bottom:15px;box-shadow:0 4px 14px #1720330a}.muted{color:#65738a}.bar{height:8px;background:#e8edf7;border-radius:10px;overflow:hidden;margin-top:12px}.fill{height:100%;width:0;background:#315efb}.question h3{font-size:17px;margin:0 0 12px}.num{color:#315efb}.option{display:flex;gap:10px;padding:10px;border:1px solid #e1e7f0;border-radius:9px;margin:7px 0;cursor:pointer}.option:hover{background:#f7f9ff;border-color:#9db3ff}.option input{margin-top:4px;accent-color:#315efb}.correct{background:#effbf3;border-color:#83c99e}.incorrect{background:#fff1ef;border-color:#e7a098}.feedback{font-size:14px;color:#526078;margin-top:10px}.actions{display:flex;gap:10px;margin:18px 0}button{border:0;border-radius:9px;padding:13px 19px;font-weight:bold;font-size:15px;cursor:pointer}#submit{background:#315efb;color:white}#reset{background:#e5eaf4;color:#182238}button:disabled{opacity:.55}.result{display:none;text-align:center}.score{font-size:42px;color:#315efb;font-weight:bold}footer{text-align:center;color:#65738a;font-size:13px;padding:10px 0 30px}
+</style>
+</head>
+<body>
+<header><h1>Cell Physiology & Cancer</h1><div>Online Multiple-Choice Quiz · 20 Questions</div></header>
+<main>
+<section class="panel"><b>Instructions</b><p>Choose one answer for each question, then click <b>Submit Quiz</b>. Your score, percentage, and correct answers will appear automatically.</p><div class="muted">20 questions · 1 point each · No time limit</div><div class="bar"><div class="fill" id="progress"></div></div></section>
+<div id="quiz"></div>
+<div class="actions"><button id="submit">Submit Quiz</button><button id="reset">Try Again</button></div>
+<section class="result" id="result" aria-live="polite"></section>
+<footer>Self-marking quiz. Answers are checked in your browser and are not sent to a server.</footer>
+</main>
+<script>
+const questions=[
+["Which structure forms the main selectively permeable barrier of a cell?",["Cell wall","Plasma membrane","Nuclear envelope","Cytoskeleton"],1,"The plasma membrane regulates movement of substances into and out of the cell."],
+["The phospholipid bilayer is arranged with:",["Hydrophilic tails facing water","Hydrophobic heads facing the cytoplasm","Hydrophilic heads facing aqueous environments","Proteins forming the entire membrane"],2,"Polar heads face watery environments, while nonpolar tails face inward."],
+["Which substance usually crosses the lipid bilayer most easily by simple diffusion?",["Oxygen","Glucose","Sodium ions","Large proteins"],0,"Small nonpolar molecules such as oxygen dissolve in the lipid bilayer."],
+["Facilitated diffusion requires:",["ATP hydrolysis","A membrane transport protein","Movement against the concentration gradient","Vesicle formation"],1,"Facilitated diffusion uses channels or carriers to move substances down a gradient."],
+["Active transport moves a substance:",["Only from high to low concentration","Without membrane proteins","Against its electrochemical gradient using energy","Only through phospholipid tails"],2,"Active transport uses energy to move substances against a gradient."],
+["Which is an example of primary active transport?",["Oxygen diffusion","Sodium-potassium pump","Water osmosis","Glucose transport through GLUT"],1,"The sodium-potassium ATPase directly uses ATP to transport ions."],
+["Osmosis is the net movement of:",["Solute through a channel","Water across a selectively permeable membrane","Proteins using ATP","Ions due to electrical potential"],1,"Osmosis is water movement across a selectively permeable membrane."],
+["A cell placed in a strongly hypertonic solution will generally:",["Gain water and swell","Lose water and shrink","Remain exactly unchanged","Burst immediately"],1,"Water leaves the cell because the surrounding solution has a higher effective solute concentration."],
+["An isotonic solution causes:",["No net water movement","Water to move only into the cell","Water to move only out of the cell","Active pumping of water"],0,"Water moves in both directions, but there is no net movement."],
+["Which process brings large particles into a cell using vesicles?",["Exocytosis","Endocytosis","Simple diffusion","Filtration"],1,"Endocytosis encloses material in a membrane-bound vesicle."],
+["Exocytosis is primarily used to:",["Release materials from the cell","Copy DNA","Move oxygen through the membrane","Break down the membrane"],0,"Secretory vesicles fuse with the plasma membrane and release their contents."],
+["Receptor-mediated endocytosis allows:",["Completely nonselective uptake","Selective uptake of specific molecules","Uptake without receptors","Movement of water only"],1,"Specific ligands bind receptors, allowing selective internalization."],
+["Cell-cycle checkpoint proteins help to:",["Ensure conditions are suitable before progression","Make every cell divide continuously","Prevent all DNA replication","Replace the plasma membrane"],0,"Checkpoints monitor conditions and DNA integrity before progression."],
+["Which event normally occurs during S phase?",["DNA replication","Cytokinesis","Chromosome separation","Cell growth only"],0,"The cell duplicates its DNA during S phase."],
+["A proto-oncogene can contribute to cancer when a mutation:",["Makes it permanently inactive","Converts it into an overactive oncogene","Always repairs DNA damage","Stops all cell signaling"],1,"Gain-of-function changes can make growth-promoting signals excessively active."],
+["Tumor suppressor genes normally help to:",["Promote uncontrolled division","Restrict cell growth or support DNA repair","Increase mutation rates","Prevent cell differentiation"],1,"Tumor suppressors help control division and maintain genome integrity."],
+["A malignant tumor is characterized by its ability to:",["Remain localized in all cases","Invade nearby tissues and potentially spread","Contain only normal cells","Stop growing permanently"],1,"Malignant cells can invade surrounding tissue and may metastasize."],
+["Metastasis refers to:",["Normal tissue repair","Spread of cancer cells to distant sites","Formation of a benign cyst","Duplication of DNA"],1,"Metastasis occurs when cancer cells spread from the primary tumor to other sites."],
+["Why can loss of cell-cycle control increase cancer risk?",["Damaged cells may continue dividing","DNA repair is guaranteed","Mutations are prevented","All cells undergo apoptosis"],0,"Failed control systems can allow abnormal cells to keep proliferating."],
+["Which statement best distinguishes benign from malignant tumors?",["Benign tumors always metastasize","Malignant tumors can invade and spread; benign tumors generally do not","Benign tumors are always infectious","Malignant tumors contain no dividing cells"],1,"Invasion and the capacity to metastasize distinguish malignant tumors."]
+];
+const quiz=document.getElementById('quiz'),progress=document.getElementById('progress'),result=document.getElementById('result'),submit=document.getElementById('submit');
+function render(){quiz.innerHTML=questions.map((q,i)=>`<section class="question" id="q${i}"><h3><span class="num">Question ${i+1}.</span> ${q[0]}</h3>${q[1].map((a,j)=>`<label class="option" id="o${i}_${j}"><input type="radio" name="q${i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${a}</span></label>`).join('')}<div class="feedback" id="f${i}" hidden></div></section>`).join('');document.querySelectorAll('input[type=radio]').forEach(x=>x.addEventListener('change',update));update()}
+function update(){let n=questions.filter((q,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;progress.style.width=(n/20*100)+'%'}
+function grade(){let score=0,blank=0;questions.forEach((q,i)=>{let s=document.querySelector(`input[name=q${i}]:checked`),v=s?+s.value:-1;if(v<0)blank++;if(v===q[2])score++;q[1].forEach((a,j)=>{let el=document.getElementById(`o${i}_${j}`);if(j===q[2])el.classList.add('correct');else if(j===v)el.classList.add('incorrect');el.querySelector('input').disabled=true});let f=document.getElementById('f'+i);f.hidden=false;f.innerHTML=`<b>${v===q[2]?'Correct':v<0?'Not answered':'Incorrect'}.</b> Correct answer: <b>${String.fromCharCode(65+q[2])}. ${q[1][q[2]]}</b><br>${q[3]}`});let pct=Math.round(score/20*100);result.style.display='block';result.innerHTML=`<h2>Your Results</h2><div class="score">${score} / 20</div><p><b>${pct}%</b> correct</p><p>${20-score} incorrect or unanswered · ${blank} unanswered</p><h3>${pct>=90?'Excellent work!':pct>=75?'Very good work!':pct>=60?'Good effort — keep practicing.':'Review the material and try again.'}</h3>`;submit.disabled=true;result.scrollIntoView({behavior:'smooth',block:'center'})}
+function reset(){render();result.style.display='none';result.innerHTML='';submit.disabled=false;window.scrollTo({top:0,behavior:'smooth'})}
+submit.addEventListener('click',grade);document.getElementById('reset').addEventListener('click',reset);render();
+</script>
+</body></html>
