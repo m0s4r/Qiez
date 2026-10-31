@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cell Physiology & Cancer - 30 Question Quiz</title>
+<style>
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fb;color:#182235;margin:0;padding:24px}
+  .container{max-width:900px;margin:auto;background:#fff;padding:28px;border-radius:16px;box-shadow:0 8px 28px #1b315015}
+  h1{text-align:center;margin:0 0 8px;color:#173b68}
+  .sub{text-align:center;color:#64748b;margin-bottom:24px}
+  .meta{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;background:#eef4fb;padding:12px 16px;border-radius:10px;margin-bottom:22px}
+  .question{padding:18px 0;border-bottom:1px solid #e5eaf1}
+  .question h3{font-size:17px;line-height:1.45;margin:0 0 12px}
+  .level{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#55708f;margin-left:6px}
+  label.option{display:block;padding:10px 12px;margin:7px 0;border:1px solid #dce4ee;border-radius:9px;cursor:pointer}
+  label.option:hover{background:#f5f9ff}
+  input{margin-right:9px}
+  button{background:#1764ad;color:#fff;border:0;padding:13px 22px;border-radius:9px;font-size:16px;cursor:pointer;margin-top:22px}
+  button:hover{background:#104d87}
+  #result{display:none;margin-top:24px;padding:20px;border-radius:12px;background:#eef7f0}
+  .correct{border-color:#229653!important;background:#effaf3!important}
+  .wrong{border-color:#d33!important;background:#fff1f1!important}
+  .feedback{font-size:14px;margin:8px 0 0;color:#42536a}
+  .small{font-size:13px;color:#64748b}
+  @media(max-width:600px){body{padding:10px}.container{padding:18px}.meta{display:block}.meta span{display:block;margin:4px 0}}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Cell Physiology &amp; Cancer</h1>
+  <div class="sub">Comprehensive Multiple-Choice Quiz · 30 Questions</div>
+  <div class="meta">
+    <span><b>Questions:</b> 30</span>
+    <span><b>Format:</b> Multiple Choice</span>
+    <span><b>Difficulty:</b> Medium to Very Difficult</span>
+    <span><b>Language:</b> English</span>
+  </div>
+  <form id="quiz"></form>
+  <button id="submitBtn" type="button">Submit Answers</button>
+  <button id="retryBtn" type="button" style="display:none;background:#475569">Try Again</button>
+  <section id="result" aria-live="polite"></section>
+</div>
+<script>
+const questions = [
+{q:"Which structure is primarily responsible for regulating the movement of substances into and out of a cell?",l:"Medium",o:["Nucleus","Plasma membrane","Ribosome","Golgi apparatus"],a:1,e:"The plasma membrane is a selectively permeable barrier that controls transport."},
+{q:"The fluid mosaic model describes the plasma membrane as:",l:"Medium",o:["A rigid layer of carbohydrates","A phospholipid bilayer with embedded and associated proteins","A double layer of cellulose","A protein sheet covered by DNA"],a:1,e:"The membrane is a dynamic phospholipid bilayer containing proteins and other molecules."},
+{q:"Which type of transport moves molecules down their concentration gradient without direct energy use?",l:"Medium",o:["Active transport","Facilitated or simple diffusion","Endocytosis","Exocytosis"],a:1,e:"Passive transport proceeds down a concentration or electrochemical gradient."},
+{q:"Osmosis is specifically the movement of:",l:"Medium",o:["Solute from high to low concentration","Water across a selectively permeable membrane","Proteins through membrane channels","Ions using ATP"],a:1,e:"Osmosis is the net movement of water across a selectively permeable membrane."},
+{q:"Which organelle is the main site of ATP production during aerobic cellular respiration?",l:"Medium",o:["Lysosome","Mitochondrion","Nucleolus","Smooth endoplasmic reticulum"],a:1,e:"Mitochondria generate most ATP during aerobic respiration."},
+{q:"Ribosomes are directly involved in:",l:"Medium",o:["Lipid storage","Protein synthesis","DNA replication","ATP breakdown"],a:1,e:"Ribosomes translate messenger RNA into polypeptide chains."},
+{q:"What is the main function of the Golgi apparatus?",l:"Medium",o:["Modify, sort, and package proteins and lipids","Produce chromosomes","Generate most cellular ATP","Digest extracellular oxygen"],a:0,e:"The Golgi modifies and sorts products for delivery to their destinations."},
+{q:"Which statement best distinguishes prokaryotic from eukaryotic cells?",l:"Medium",o:["Prokaryotes lack a membrane-bound nucleus","Prokaryotes always have mitochondria","Eukaryotes lack ribosomes","Eukaryotes have no plasma membrane"],a:0,e:"Prokaryotic cells do not have a membrane-bound nucleus or other membrane-bound organelles."},
+{q:"A cell placed in a hypertonic solution will usually:",l:"Medium",o:["Gain water and swell","Lose water and shrink","Remain unchanged in all cases","Burst immediately"],a:1,e:"The surrounding solution has a higher effective solute concentration, so water leaves the cell."},
+{q:"Which process allows a cell to take in large particles by engulfing them?",l:"Medium",o:["Phagocytosis","Simple diffusion","Osmosis","Exocytosis"],a:0,e:"Phagocytosis is a type of endocytosis used to engulf large particles."},
+{q:"The sodium-potassium pump typically transports, per ATP molecule:",l:"Hard",o:["2 Na+ out and 3 K+ in","3 Na+ out and 2 K+ in","3 Na+ in and 2 K+ out","Equal numbers of Na+ and K+ in both directions"],a:1,e:"The Na+/K+ ATPase moves three sodium ions out and two potassium ions into the cell."},
+{q:"Why does facilitated diffusion eventually reach a maximum rate?",l:"Hard",o:["ATP becomes unavailable","All carrier or channel proteins become occupied or saturated","The membrane becomes impermeable to water","The solute changes into ATP"],a:1,e:"Carrier-mediated transport can saturate when all available transport proteins are in use."},
+{q:"A cell's resting membrane potential is influenced most directly by:",l:"Hard",o:["Unequal ion distributions and selective membrane permeability","The number of chromosomes","The amount of DNA in the nucleus","Golgi vesicle size"],a:0,e:"Ion gradients and selective permeability, especially to potassium, establish resting potential."},
+{q:"Which organelle contains enzymes that digest worn-out cell components?",l:"Hard",o:["Lysosome","Ribosome","Centrosome","Nucleolus"],a:0,e:"Lysosomes contain hydrolytic enzymes for intracellular digestion and recycling."},
+{q:"During which phase of the cell cycle is DNA replicated?",l:"Hard",o:["G1 phase","S phase","G2 phase","M phase"],a:1,e:"DNA synthesis occurs during the S phase of interphase."},
+{q:"The principal purpose of cell-cycle checkpoints is to:",l:"Hard",o:["Increase mutation rates","Ensure critical events are completed accurately before progression","Stop all protein synthesis","Convert normal cells into stem cells"],a:1,e:"Checkpoints monitor DNA integrity and successful completion of cell-cycle events."},
+{q:"Apoptosis is best described as:",l:"Hard",o:["Uncontrolled cell swelling after injury","Programmed, regulated cell death","Rapid cell division","Movement of water across a membrane"],a:1,e:"Apoptosis is a regulated process that removes cells in a controlled manner."},
+{q:"Which feature is most characteristic of cancer cells?",l:"Hard",o:["Strict dependence on normal growth signals","Uncontrolled proliferation and reduced response to growth restraints","Permanent inability to divide","Always remaining confined to their original tissue"],a:1,e:"Cancer involves dysregulated growth and survival control."},
+{q:"A proto-oncogene can contribute to cancer when it:",l:"Hard",o:["Is activated by a gain-of-function change","Is completely absent from every cell","Repairs all DNA damage","Blocks every cell-cycle transition"],a:0,e:"Gain-of-function mutations or overexpression can convert proto-oncogenes into oncogenes."},
+{q:"Tumor-suppressor genes normally function to:",l:"Hard",o:["Promote division under all conditions","Limit cell growth, maintain genome integrity, or trigger cell death","Make cells migrate into blood vessels","Prevent all gene expression"],a:1,e:"Tumor suppressors restrain proliferation and help prevent damaged cells from expanding."},
+{q:"Why can mutations in p53 promote cancer development?",l:"Very Difficult",o:["They permanently increase oxygen uptake","They can impair DNA-damage responses, cell-cycle arrest, and apoptosis","They stop all transcription in healthy cells","They convert RNA directly into glucose"],a:1,e:"p53 helps coordinate responses to cellular stress and DNA damage; loss of function weakens these safeguards."},
+{q:"What is metastasis?",l:"Hard",o:["A tumor becoming smaller","The spread of cancer cells from the primary site to distant tissues","A normal stage of mitosis","The repair of damaged DNA"],a:1,e:"Metastasis is the establishment of cancer at sites distant from the primary tumor."},
+{q:"Angiogenesis can support tumor growth because it:",l:"Hard",o:["Supplies the tumor with oxygen and nutrients through new blood vessels","Destroys every cancer cell","Prevents all cell division","Removes the tumor's mutations"],a:0,e:"Growing tumors can stimulate formation of blood vessels to support their metabolic needs."},
+{q:"A benign tumor is generally defined as one that:",l:"Medium",o:["Invades nearby tissues and metastasizes","Does not invade nearby tissues or metastasize","Always grows faster than a malignant tumor","Is necessarily caused by a virus"],a:1,e:"Benign tumors are non-invasive and do not metastasize, though some can still cause harm by location or size."},
+{q:"Which statement about malignant tumors is most accurate?",l:"Hard",o:["They are always encapsulated","They can invade surrounding tissues and may metastasize","They never stimulate blood-vessel growth","They contain no genetic alterations"],a:1,e:"Malignant tumors have invasive potential and may spread to distant sites."},
+{q:"A mutation that inactivates a tumor-suppressor protein is most often an example of:",l:"Very Difficult",o:["Loss of function","A harmless synonymous change in every case","Gain of function","A change in membrane fluidity only"],a:0,e:"Tumor-suppressor genes commonly contribute to cancer through loss of function."},
+{q:"Why are many cancer treatments more effective against rapidly dividing cells?",l:"Hard",o:["Rapidly dividing cells have no DNA","Some treatments target processes such as DNA replication or mitosis","Cancer cells cannot absorb drugs","Normal cells never divide"],a:1,e:"Several therapies interfere with DNA synthesis or mitosis, processes often active in rapidly proliferating cells."},
+{q:"What is a key limitation of chemotherapy that targets cell division?",l:"Very Difficult",o:["It can also affect healthy tissues with rapidly dividing cells","It affects only cancer cells with perfect selectivity","It cannot enter the bloodstream","It prevents all future mutations"],a:0,e:"Hair follicles, bone marrow, and gastrointestinal lining also contain rapidly dividing cells."},
+{q:"A tumor contains cells with different mutations and characteristics. This is known as:",l:"Very Difficult",o:["Tumor heterogeneity","Osmotic equilibrium","Membrane potential","Contact inhibition"],a:0,e:"Tumor heterogeneity refers to variation among cancer cells within the same tumor."},
+{q:"Which sequence best represents a simplified progression toward invasive cancer?",l:"Very Difficult",o:["Accumulation of alterations → growth advantage → invasion and possible spread","Osmosis → translation → normal differentiation","ATP production → meiosis → tissue repair","Protein folding → water loss → apoptosis"],a:0,e:"Cancer usually develops through accumulated cellular and genetic changes that confer selective advantages."},
+{q:"A drug blocks a growth-factor receptor that is abnormally active in a tumor. This is an example of:",l:"Very Difficult",o:["Targeted therapy","Osmotic therapy","Non-specific nutrient replacement","Passive diffusion"],a:0,e:"Targeted therapies interfere with specific molecular drivers or pathways used by cancer cells."}
+];
+
+const form=document.getElementById("quiz");
+questions.forEach((item,i)=>{
+  const section=document.createElement("section");
+  section.className="question";
+  section.innerHTML=`<h3>${i+1}. ${item.q} <span class="level">(${item.l})</span></h3>`+
+    item.o.map((choice,j)=>`<label class="option" id="q${i}o${j}"><input type="radio" name="q${i}" value="${j}">${String.fromCharCode(65+j)}. ${choice}</label>`).join("");
+  form.appendChild(section);
+});
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  let score=0,answered=0;
+  questions.forEach((item,i)=>{
+    const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+    if(chosen) answered++;
+    if(chosen && Number(chosen.value)===item.a) score++;
+    item.o.forEach((_,j)=>{
+      const label=document.getElementById(`q${i}o${j}`);
+      label.classList.remove("correct","wrong");
+      if(j===item.a) label.classList.add("correct");
+      if(chosen && Number(chosen.value)===j && j!==item.a) label.classList.add("wrong");
+    });
+  });
+  const pct=Math.round(score/questions.length*100);
+  const result=document.getElementById("result");
+  result.style.display="block";
+  result.innerHTML=`<h2>Quiz Results</h2><p><b>Score:</b> ${score} / ${questions.length}</p><p><b>Percentage:</b> ${pct}%</p><p><b>Answered:</b> ${answered} / ${questions.length}</p><hr>`+
+    questions.map((item,i)=>{
+      const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+      const userAnswer=chosen?item.o[Number(chosen.value)]:"Not answered";
+      return `<p><b>${i+1}. ${chosen && Number(chosen.value)===item.a?"Correct":"Incorrect"}</b><br>Your answer: ${userAnswer}<br>Correct answer: ${String.fromCharCode(65+item.a)}. ${item.o[item.a]}<br><span class="feedback">${item.e}</span></p>`;
+    }).join("");
+  document.getElementById("submitBtn").disabled=true;
+  document.getElementById("retryBtn").style.display="inline-block";
+  result.scrollIntoView({behavior:"smooth"});
+});
+document.getElementById("retryBtn").addEventListener("click",()=>location.reload());
+</script>
+</body>
+</html>
